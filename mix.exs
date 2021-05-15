@@ -13,7 +13,8 @@ defmodule Cortex.Mixfile do
       package: package(),
       description: description(),
       dialyzer: [ignore_warnings: "./.dialyzer-ignore-warnings.txt"],
-      elixirc_paths: elixir_paths(Mix.env())
+      elixirc_paths: elixir_paths(Mix.env()),
+      xref: [exclude: [IEx.Helpers]]
     ]
   end
 
@@ -42,7 +43,7 @@ defmodule Cortex.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger, :iex], mod: {Cortex.Application, []}]
+    [extra_applications: [:logger], mod: {Cortex.Application, []}]
   end
 
   # Dependencies can be Hex packages:

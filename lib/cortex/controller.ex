@@ -16,7 +16,7 @@ defmodule Cortex.Controller do
   # Public API
   ##########################################
 
-  def start_link do
+  def start_link([]) do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
@@ -148,16 +148,6 @@ defmodule Cortex.Controller do
   defp run_stage_command(stage, :all, _), do: stage.run_all
 
   @spec call_stage(stage :: module | [module], fun) :: {:ok | {:error, any}, boolean}
-  defp call_stage(stage, cb) when is_atom(stage) do
-    result = cb.(stage)
-
-    continue? =
-      !stage.cancel_on_error? or
-        !match?({:error, _}, result)
-
-    {result, continue?}
-  end
-
   defp call_stage(stages, cb) when is_list(stages) do
     stages
     |> Enum.map(&call_stage(&1, cb))
@@ -165,6 +155,16 @@ defmodule Cortex.Controller do
     |> Stream.map(&handle_task_result/1)
     |> Enum.unzip()
     |> Enum.map(fn {result, continue} -> {result, Enum.all?(continue)} end)
+  end
+
+  defp call_stage(stage, cb) when is_atom(stage) do
+    result = cb.(stage)
+
+    continue? =
+      !stage.cancel_on_error?() or
+        !match?({:error, _}, result)
+
+    {result, continue?}
   end
 
   defp handle_task_result({:ok, result}), do: result

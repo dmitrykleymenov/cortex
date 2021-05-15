@@ -148,15 +148,6 @@ defmodule Cortex.Controller do
   defp run_stage_command(stage, :all, _), do: stage.run_all
 
   @spec call_stage(stage :: module | [module], fun) :: {:ok | {:error, any}, boolean}
-  defp call_stage(stages, cb) when is_list(stages) do
-    stages
-    |> Enum.map(&call_stage(&1, cb))
-    |> Task.yield_many()
-    |> Stream.map(&handle_task_result/1)
-    |> Enum.unzip()
-    |> Enum.map(fn {result, continue} -> {result, Enum.all?(continue)} end)
-  end
-
   defp call_stage(stage, cb) when is_atom(stage) do
     result = cb.(stage)
 
@@ -165,6 +156,15 @@ defmodule Cortex.Controller do
         !match?({:error, _}, result)
 
     {result, continue?}
+  end
+
+  defp call_stage(stages, cb) when is_list(stages) do
+    stages
+    |> Enum.map(&call_stage(&1, cb))
+    |> Task.yield_many()
+    |> Stream.map(&handle_task_result/1)
+    |> Enum.unzip()
+    |> Enum.map(fn {result, continue} -> {result, Enum.all?(continue)} end)
   end
 
   defp handle_task_result({:ok, result}), do: result

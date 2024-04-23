@@ -178,7 +178,7 @@ defmodule Cortex.TestRunner do
   if function_exported?(ExUnit.Server, :cases_loaded, 0) do
     defp test_modules_loaded, do: ExUnit.Server.cases_loaded()
   else
-    defp test_modules_loaded, do: ExUnit.Server.modules_loaded()
+    defp test_modules_loaded, do: ExUnit.Server.modules_loaded(false)
   end
 
   defp all_test_files do

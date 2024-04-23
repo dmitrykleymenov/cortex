@@ -57,10 +57,10 @@ defmodule Cortex.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:file_system, "~> 0.2"},
-      {:credo, "~> 0.9", only: [:dev, :test]},
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
-      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:file_system, "~> 1.0"},
+      {:credo, "~> 1.7", only: [:dev, :test]},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
+      {:ex_doc, "~> 0.31", only: :dev},
       {:ex_dash, "~> 0.1.0", only: [:dev]}
     ]
   end

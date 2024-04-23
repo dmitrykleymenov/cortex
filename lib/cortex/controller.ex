@@ -184,7 +184,7 @@ horribly in a fire")
   defp log_stage(:ok), do: :ok
 
   defp log_stage({:error, reason}) do
-    Logger.warn("[Cortex] Received error from pipeline stage!")
-    Logger.warn(reason)
+    Logger.warning("[Cortex] Received error from pipeline stage!")
+    Logger.warning(reason)
   end
 end

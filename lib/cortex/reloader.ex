@@ -75,7 +75,7 @@ defmodule Cortex.Reloader do
 
         state =
           if MapSet.member?(state.paths_with_errors, path) do
-            Logger.warn("Compiler errors resolved for path: #{path}")
+            Logger.warning("Compiler errors resolved for path: #{path}")
 
             %{state | paths_with_errors: MapSet.delete(state.paths_with_errors, path)}
           else

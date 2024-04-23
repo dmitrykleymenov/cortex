@@ -3,7 +3,7 @@ defmodule Cortex.ReloaderTest do
 
   alias Cortex.Reloader
 
-  @fixture_path Application.get_env(:cortex, :fixture_path, "test/fixtures")
+  @fixture_path Application.compile_env(:cortex, :fixture_path, "test/fixtures")
 
   defp fixture_for(path) do
     Path.join(@fixture_path, path)

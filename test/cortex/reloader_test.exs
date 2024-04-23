@@ -33,7 +33,8 @@ defmodule Cortex.ReloaderTest do
         "hello_undefined_type.ex",
         "hello_bad_string.ex",
         "hello_bad_comma.ex",
-        "hello_does_not_exist.ex"
+        "hello_does_not_exist.ex",
+        "hello_key_error.ex"
       ]
 
       for path <- error_file_paths do
@@ -47,7 +48,7 @@ defmodule Cortex.ReloaderTest do
       {:reply, {:error, error_message}, state} =
         Reloader.handle_call({:reload_file, path}, nil, state)
 
-      assert error_message =~ ~r/(CompileError|LoadError|TokenMissingError|SyntaxError)/
+      assert error_message =~ ~r/(TypespecError|LoadError|TokenMissingError|SyntaxError|KeyError)/
 
       errors_set =
         MapSet.new()
